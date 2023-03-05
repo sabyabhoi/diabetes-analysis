@@ -139,13 +139,18 @@ In conclusion, this dataset is a valuable resource for predicting diabetes onset
 ```{r, echo=F, results='asis'}
 df <- read.csv("./res/diabetes.csv")
 df %>% 
-  mutate(Outcome = factor(Outcome)) -> df1
+  mutate(Outcome = factor(Outcome)) -> dff
 
-stargazer(df1, title="Summary statistics of the dataset", header=F)
+df_nz <- df %>% 
+  filter(Glucose > 0 & BloodPressure > 0 & SkinThickness > 0 & Insulin > 0 & BMI > 0) 
+
+df_nz_factor <- df_nz %>% mutate(Outcome = factor(Outcome))
+
+stargazer(df_nz_factor, title="Summary statistics of the dataset", header=F)
 ```
 
 ```{r corr-plot, cache=T}
-ggpairs(df1, 
+ggpairs(df_nz_factor, 
         mapping=ggplot2::aes(color=Outcome),
         lower=list(continuous = wrap("smooth", alpha=.3, size=.1)),
         upper=list(
@@ -166,7 +171,9 @@ fit <- rlm(Outcome ~ Pregnancies +
              SkinThickness +
              DiabetesPedigreeFunction +
              Age +
-             BMI, df)
+             BMI +
+             Pregnancies * Age +
+             Insulin * Age, df_nz)
 stargazer(fit, title="Robust Regression Results", header=F, table.placement = "H")
 ```
 
