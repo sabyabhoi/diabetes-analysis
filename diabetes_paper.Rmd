@@ -1,0 +1,192 @@
+---
+title: "Diabetes Analysis"
+author: "Sabyasachi Bhoi"
+date: "2023-02-28"
+output:
+  pdf_document:
+    includes:
+      in_header: preamble.sty
+    keep_tex: yes
+    number_sections: yes
+    toc_depth: 2
+fontsize: 12pt
+bibliography: ref.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, warning=F, message=F, fig.pos = "H")
+library(dplyr)
+library(ggplot2)
+library(GGally)
+library(papeR)
+library(stargazer)
+library(lmtest)
+library(MASS)
+```
+
+# Introduction
+
+# Literature Review
+
+## Paper 1
+
+> Non-Communicable Disease Risk Factors and their Trends in India
+
+By Suzanne Nethan, Dhirendra Sinha, and Ravi Mehrotra
+
+### About the Paper
+
+In this paper, @nethan2017non examine non-communicable diseases (NCD). It accounts for about 38 million (68%) deaths and 5.87 million (60%) worldwide. The paper discusses various national/state-level surveys in India, including single or multiple risk factors. Being overweight, obesity and tobacco use are all covered nationally.
+
+### Use Case
+
+As a result of reading this paper, we gained a deeper understanding of what we can expect from a research model as diabetes is a non-communicable disease.
+
+### Methodology
+
+Indicator definitions from the World Health Organization (WHO) for both urban and rural populations were used in the research. The percentage of the population covered by the polls for each risk factor was then calculated by adding the state-by-state population proportion and dividing it by the total Indian population. The previous and present data from the periodic surveys were also contrasted to evaluate changes in prevalence. PubMed, Google, and various surveillance systems were searched for this systematic study. Forty-one papers/survey reports from the search results were ultimately determined to be eligible-data on NCD risk variables from states and the nation.
+
+### Conclusion
+
+India has a much-delayed response to NCD risk factors surveillance, and information on the exact needs to be more consistent and complete. According to the result, India should plan for a cost and time-effective NCD surveillance system.
+
+## Paper 2
+
+> Performance of Indian Diabetes Risk Score (IDRS) as a screening tool for diabetes in an urban slum
+
+By Lt Col Puja Dudeja, Maj Gurpreet Singh, Maj Tukaram Gadekar, Air Cmde Sandip Mukherji
+
+### About the Paper
+
+To identify undetected Type 2 diabetes, the Madras Diabetes Research Foundation (MDRF) created the Indian Diabetes Risk Score (IDRS). In this paper, @dudeja2017diabetes examine how well the IDRS performs as a screening tool for Type 2 diabetes cases that have not yet been diagnosed and the prevalence of un-diagnosed Type 2 diabetes in urban slums.
+
+### Use Case
+
+As a result of reading this paper, we gained a deeper understanding of what we can expect from a research model.
+
+### Methodology
+
+Surveys were carried out in urban slum areas. A total of 155 observation IDRS tools, including two adjustable (waist circumference, physical activity) and two non-modifiable (age, family history) risk factors for diabetes, were used to assess the risk of diabetes. Anthropometry data was obtained. Diabetes was diagnosed using fasting venous blood sugar levels.
+
+### Conclusion
+
+Using IDRS to the community can effectively detect un-diagnosed diabetes.
+
+## Paper 3
+
+> Prevalence of Diabetes Mellitus and its risk factors
+
+By Akula Sanjeevaiah, Akula Sushmitha, Thota Srikanth
+
+### About the Paper
+
+In this paper, @sanjeevaiah2019prevalence explore the prevalence of Diabetes Mellitus (DM) and its risk factors among the population of India. The study found a high prevalence of DM, particularly in urban areas and among those with a family history of the disease. The major risk factors identified were age, obesity, sedentary lifestyle, hypertension, and smoking. The paper highlights the need for early detection and effective management of DM to prevent complications and improve health outcomes.
+
+### Methodology
+
+The authors conducted a cross-sectional study for a period of 4 months with a sample size of 250. The basis for the selection of subjects was age greater than 15 years of both genders who are identified with diabetes. Measurements of height and weight were taken to estimate BMI, waist circumference and blood pressure.
+
+### Conclusion
+
+This paper concluded that age, waist circumference, hypertension, BMI, smoking habit and total cholesterol are noteworthy when comparing diabetic and non-diabetic subjects.
+
+# Data Source
+
+It is with utmost pleasure that we elucidate upon the dataset made available by the esteemed National Institute of Diabetes and Digestive and Kidney Diseases, which is designed to predict the likelihood of a patient's susceptibility to diabetes based on specific diagnostic measurements. This dataset is a carefully selected subset of a larger database, wherein all patients are of Pima Indian ancestry and female, aged 21 years or older. The rationale behind this selection criteria is owing to the fact that the Pima Indians exhibit the highest incidence of type 2 diabetes worldwide [@booth2017policy].
+
+Our analysis aims to comprehensively examine the most significant factors that contribute to diabetes onset. The dataset comprises nine variables, which were meticulously chosen to ensure their relevance in predicting diabetes. We shall now deliberate on the chosen variables in detail.
+
+## Outcome
+
+The first variable is the dependent variable, "Outcome", which takes binary values of 0 or 1, signifying non-diabetic and diabetic status, respectively.
+
+## Pregnancies
+
+The variable "Pregnancies" records the total number of pregnancies that the patient has experienced. Prior research has established a positive correlation between gestational diabetes mellitus and multiple pregnancies, with women with four or more pregnancies displaying a higher susceptibility to diabetes [@vaajala2023higher].
+
+## Glucose
+
+The "Glucose" variable records the plasma glucose concentration (mg/dL) over two hours following an oral glucose tolerance test. High fasting blood glucose concentrations are an indicator of an increased likelihood of developing diabetes. Normal fasting blood glucose concentrations range from 70 mg/dL to 100 mg/dL. Lifestyle changes are recommended if the value lies between 100-125 mg/dL, and diabetes is diagnosed if it exceeds this range.
+
+## Blood Pressure
+
+The "BloodPressure" variable records the average diastolic blood pressure level (mm/Hg) of the patient. Patients with hypertension exhibit insulin resistance and are at a higher risk of developing diabetes. A staggering 66% of diabetic individuals worldwide have blood pressure levels greater than 130/80 mm Hg or are diagnosed with hypertension [@petrie2018diabetes].
+
+## Skin Thickness
+
+The "SkinThickness" variable records the triceps skin fold thickness (mm) of the patient. In type-2 diabetes, insulin resistance affects subcutaneous tissue thickness. Previous research has indicated an association between diabetic patients and increased skin thickness [@jain2013evaluation].
+
+## Insulin
+
+The "Insulin" variable records the result of the 2-hour serum insulin (mu U/ml) level. Healthy individuals exhibit insulin levels between 5 and 15 µU/mL, whereas higher insulin levels are directly correlated with diabetes.
+
+## BMI
+
+The "BMI" variable records the body mass index of the patient. Overnutrition and obesity may result in insulin resistance, leading to increased glucose levels in the blood and eventually, diabetes. Research has shown that individuals with a BMI greater than 25 are more likely to develop diabetes.
+
+## Diabetes Pedigree Function
+
+The "DiabetesPedigreeFunction" variable measures the likelihood of becoming diabetic based on family history. A family tree is generated based on which a function is generated, assigning a high or low value based on the number of diabetic patients in the patient's family history [@massaro2022prediction].
+
+## Age
+
+Finally, the "Age" variable records the age of the patient. With age, individuals are more likely to develop multiple medical conditions, including high blood pressure and high cholesterol. Current literature suggests that middle-aged individuals are more likely to develop diabetes due to these indirect factors.
+
+In conclusion, this dataset is a valuable resource for predicting diabetes onset based on specific diagnostic measurements. Our analysis of the chosen variables underscores the significance of hypertension, insulin resistance, and family history in determining an individual's susceptibility to diabetes.
+
+# Summary Statistics
+
+```{r, echo=F, results='asis'}
+df <- read.csv("./res/diabetes.csv")
+df %>% 
+  mutate(Outcome = factor(Outcome)) -> df1
+
+stargazer(df1, title="Summary statistics of the dataset", header=F)
+```
+
+```{r corr-plot, cache=T}
+ggpairs(df1, 
+        mapping=ggplot2::aes(color=Outcome),
+        lower=list(continuous = wrap("smooth", alpha=.3, size=.1)),
+        upper=list(
+          combo = wrap("box_no_facet", alpha=.5, outlier.size=.1),
+          continuous = wrap('cor', size=2)
+          ),
+        axisLabels = 'none'
+        )
+```
+
+# Regression
+
+```{r, results='asis'}
+fit <- rlm(Outcome ~ Pregnancies + 
+             SkinThickness +
+             Glucose +
+             BloodPressure +
+             SkinThickness +
+             DiabetesPedigreeFunction +
+             Age +
+             BMI, df)
+stargazer(fit, title="Robust Regression Results", header=F, table.placement = "H")
+```
+
+## Diagnostics
+
+### Test for Heteroskedasticity
+
+```{r}
+bptest(fit)
+```
+
+### Test for Omitted Variable Bias
+
+We're going to employ the Ramsey RESET Test [@ramsey1969reset] to test for Omitted Variable Bias.
+
+```{r}
+resettest(fit, power=2, type="fitted")
+```
+
+# References
+
+::: {#refs}
+:::
